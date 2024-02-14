@@ -5,21 +5,27 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D rBody; 
+
     public GroundSensor sensor;
     public SpriteRenderer render;
+    public Animator anim;
+    AudioSource source;
+
     public Vector3 newPosition = new Vector3(50, 5, 0);
-    public float jumpforce = 10;
+    public float jumpforce = 5;
+
     public float movementSpeed = 5;
     private float inputHorizontal;
-    public Animator anim;
-
     public bool jump = false;
+
+    public AudioClip jumpSound;
 
     void Awake()
     {
         rBody = GetComponent<Rigidbody2D>();
         render = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        source = GetComponent<AudioSource>();
     }
     // Start is called before the first frame update
 
@@ -53,10 +59,20 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Estoy saltando");
 
         }*/
-        if(Input.GetButtonDown("Jump") && sensor.isGrounded = true)
+        if(Input.GetButtonDown("Jump") && sensor.isGrounded == true)
         {
-            rBody.AddForce(new Vector2(0, 1) * jumpforce, ForceMode2D.Impulse);
-            anim.SetBool("IsJumping", true);
+            
+            if(sensor.isGrounded)
+            {
+                 rBody.AddForce(new Vector2(0, 1) * jumpforce, ForceMode2D.Impulse);
+                 anim.SetBool("IsJumping", true);
+                 source.PlayOneShot(jumpSound);
+            }
+            else if(sensor.isGrounded == true)
+            {
+                 anim.SetBool("IsJumping", true);
+            }
+           
         }
 
         if(inputHorizontal < 0)
@@ -73,6 +89,8 @@ public class PlayerMovement : MonoBehaviour
         {
             anim.SetBool("IsRunning", false);
         }
+
+    
        
     }
     void FixedUpdate()
