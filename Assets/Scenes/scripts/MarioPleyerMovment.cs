@@ -33,8 +33,6 @@ public class PlayerMovement : MonoBehaviour
     {
         // Teletransporta al personaje a la posicion de la variable newPosition 
         // Transform.position = newPosition
-
-        
     }
 
     // Update is called once per frame
@@ -43,8 +41,6 @@ public class PlayerMovement : MonoBehaviour
         inputHorizontal = Input.GetAxis("Horizontal");
         //transform.position = transform.position + new Vector3(1, 0, 0) * movementSpeed * Time.deltaTime;
         //transform.position +- new Vector (Input Horizontal 1, 0, 0) * movementSpeed * Time.DeltaTime;
-        
-        
 
         /*if(jump == true)
         { 
@@ -57,7 +53,6 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             Debug.Log("Estoy saltando");
-
         }*/
         if(Input.GetButtonDown("Jump") && sensor.isGrounded == true)
         {
@@ -89,8 +84,6 @@ public class PlayerMovement : MonoBehaviour
         {
             anim.SetBool("IsRunning", false);
         }
-
-    
        
     }
     void FixedUpdate()
