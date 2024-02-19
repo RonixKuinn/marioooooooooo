@@ -3,16 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Bandera : MonoBehaviour
+
 {
+    public AudioClip lvl1Music;
+    public AudioClip flag;
+
+    AudioSource source;
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        source = GetComponent<AudioSource>();
+    }
+
+     void Start()
+    {
+        source.clip = lvl1Music;
+        source.Play();
     }
 
     // Update is called once per frame
-    void Update()
+    void OnTriggerEnter2D()
     {
-        
+        source.clip = flag;
+        source.Play();
+
     }
 }
