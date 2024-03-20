@@ -20,6 +20,13 @@ public class PlayerMovement : MonoBehaviour
 
     public AudioClip jumpSound;
 
+    public Transform bulletSpawn;
+    public GameObject bulletPrefab;
+
+    public bool canShoot = true;
+    public float timer;
+    public float rateOffFire = 1f;
+
     void Awake()
     {
         rBody = GetComponent<Rigidbody2D>();
@@ -28,32 +35,48 @@ public class PlayerMovement : MonoBehaviour
         source = GetComponent<AudioSource>();
     }
     // Start is called before the first frame update
-
     void Start()
     {
-        // Teletransporta al personaje a la posicion de la variable newPosition 
-        // Transform.position = newPosition
-    }
 
+    }
     // Update is called once per frame
     void Update()
     {
         inputHorizontal = Input.GetAxis("Horizontal");
-        //transform.position = transform.position + new Vector3(1, 0, 0) * movementSpeed * Time.deltaTime;
-        //transform.position +- new Vector (Input Horizontal 1, 0, 0) * movementSpeed * Time.DeltaTime;
+        
+        Jump();
+        Movement();
+        Shoot();
+       
+    }
 
-        /*if(jump == true)
-        { 
-            Debug.Log("Estoy saltando");
-        }
-         else if (jump == false)
+    void FixedUpdate()
+    {
+    rBody.velocity = new Vector2(inputHorizontal * movementSpeed, rBody.velocity.y);
+    }
+
+    void Movement()
+    {
+        if(inputHorizontal < 0)
         {
-            Debug.Log("Estoy saltando");
+            //render.flipX = true;
+            transform.rotation = Quaternion.Euler(0, 100, 0);
+            anim.SetBool("IsRunning", true);
+        }
+        else if(inputHorizontal > 0)
+        {
+            //render.flipX = false;
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            anim.SetBool("IsRunning", true);
         }
         else
         {
-            Debug.Log("Estoy saltando");
-        }*/
+            anim.SetBool("IsRunning", false);
+        }
+    }
+
+    void Jump()
+    {
         if(Input.GetButtonDown("Jump") && sensor.isGrounded == true)
         {
             
@@ -70,24 +93,26 @@ public class PlayerMovement : MonoBehaviour
            
         }
 
-        if(inputHorizontal < 0)
-        {
-            render.flipX = true;
-            anim.SetBool("IsRunning", true);
-        }
-        else if(inputHorizontal > 0)
-        {
-            render.flipX = false;
-            anim.SetBool("IsRunning", true);
-        }
-        else
-        {
-            anim.SetBool("IsRunning", false);
-        }
-       
     }
-    void FixedUpdate()
+
+    void Shoot()
     {
-    rBody.velocity = new Vector2(inputHorizontal * movementSpeed, rBody.velocity.y);
+        if(!canShoot)
+        {
+            timer += Time.deltaTime;
+
+            if(timer >= rateOffFire)
+            {
+                canShoot = true;
+                timer = 0;
+            }
+        }
+
+        if(Input.getKeyDown(KeyCode.F) && canShoot);
+        {
+            Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
+
+            canShoot = false;
+        }
     }
 }
