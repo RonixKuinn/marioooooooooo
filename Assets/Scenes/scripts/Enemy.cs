@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class Enemy : MonoBehaviour
 {
+    private GameManager gameManager;
+/////////////////////////
     private Rigidbody2D rBody;
 
     private AudioSource source;
@@ -23,6 +25,7 @@ public class Enemy : MonoBehaviour
         rBody = GetComponent<Rigidbody2D>();
         source = GetComponent<AudioSource>();
         boxCollider2D = GetComponent<BoxCollider2D>();
+        gameManager = gameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -65,6 +68,16 @@ public class Enemy : MonoBehaviour
         rBody.gravityScale = 0;
         enemyDirection = 0;
         Destroy(gameObject, 0.5f);
+    }
+
+    void OnBecameVisible()
+    {
+        gameManager.enemiesInScreen.Add(this.gameObject);
+    }
+
+    void OnBecameInvisible()
+    {
+        gameManager.enemiesInScreen.Remove(this.gameObject);
     }
 
 }
