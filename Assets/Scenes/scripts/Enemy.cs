@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     private BoxCollider2D boxCollider2D;
 
     public AudioClip deathSound;
+    
 
     public float enemySpeed = 5;
     public float enemyDirection = 1;
@@ -57,7 +58,8 @@ public class Enemy : MonoBehaviour
         {
             Destroy(collision.gameObject);
             SceneManager.LoadScene("GameOver");
-        }
+            source.PlayOneShot(jumpSound);
+}
        
     }
 
