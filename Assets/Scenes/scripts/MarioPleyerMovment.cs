@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     public bool jump = false;
 
     public AudioClip jumpSound;
+    public AudioClip DeathSound;
 
     public Transform bulletSpawn;
     public GameObject bulletPrefab;
@@ -26,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
     public bool canShoot = true;
     public float timer;
     public float rateOffFire = 1f;
+
+    using UnityEngine.SceneManagement;
 
     void Awake()
     {
@@ -93,6 +96,23 @@ public class PlayerMovement : MonoBehaviour
            
         }
 
+    }
+
+    public void Death()
+    {
+        source.PlayOneShot(DeathSound);
+        SceneManager.LoadScene(0);
+    }
+    public IEnumerator TusMuertos36()
+    {
+        source.PlayOneShot(deathSound);
+
+        Time.timeScale = 0.5f;
+        yield return new WaitForSeconds(2);
+        yield return new WaitForSecondsRealTime(2);
+        yield return null;
+    }
+    
     }
 
     void Shoot()

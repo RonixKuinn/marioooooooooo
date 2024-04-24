@@ -56,10 +56,15 @@ public class Enemy : MonoBehaviour
 
         if(collision.gameObject.tag == "Player")
         {
-            Destroy(collision.gameObject);
+            /*Destroy(collision.gameObject);
             SceneManager.LoadScene("GameOver");
-            source.PlayOneShot(jumpSound);
-}
+            source.PlayOneShot(jumpSound);*/
+            PlayerMovement playerScript = collision.gameObject.GetComponent<PlayerMovement>();
+
+            playerScript.Death();
+
+            playerScript.StartCoroutine("TusMurtos36");
+        }
        
     }
 
